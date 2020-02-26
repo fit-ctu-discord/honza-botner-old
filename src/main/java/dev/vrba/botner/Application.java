@@ -35,7 +35,6 @@ public class Application
         try
         {
             BotnerConfiguration configuration = loadConfiguration();
-
         }
         catch (IOException e)
         {
@@ -60,11 +59,14 @@ public class Application
 
     private static BotnerConfiguration loadConfiguration() throws IOException
     {
-        ClassLoader classLoader = Application.class.getClassLoader();
-        File resourceFile = new File(Objects.requireNonNull(classLoader.getResource("config.json")).getFile());
-
         ObjectMapper mapper = new ObjectMapper();
+        ClassLoader classLoader = Application.class.getClassLoader();
+        String resourceFile = Objects.requireNonNull(classLoader.getResource("config.json")).getFile();
 
-        return mapper.readValue(resourceFile, BotnerConfiguration.class);
+        BotnerConfiguration configuration = mapper.readValue(new File(resourceFile), BotnerConfiguration.class);
+
+        configuration.setGlobalInstance(configuration);
+
+        return configuration;
     }
 }

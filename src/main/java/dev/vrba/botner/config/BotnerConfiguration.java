@@ -7,9 +7,21 @@ import java.util.List;
 
 public class BotnerConfiguration
 {
-    public VerificationMessage verificationMessage;
+    private static BotnerConfiguration globalInstance;
+
+    public VerificationMessageConfiguration verificationMessage;
 
     public List<RoleAssigningMessage> roleAssigningMessages;
 
     public HashMap<RequiredCommandRole, Long> mappedPermissionRoles;
+
+    public void setGlobalInstance(BotnerConfiguration instance)
+    {
+        globalInstance = instance;
+    }
+
+    public static BotnerConfiguration getGlobalInstance()
+    {
+        return globalInstance;
+    }
 }

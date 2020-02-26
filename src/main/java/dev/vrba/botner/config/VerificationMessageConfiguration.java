@@ -1,6 +1,6 @@
 package dev.vrba.botner.config;
 
-public class VerificationMessage
+public class VerificationMessageConfiguration
 {
     public long id;
 
