@@ -1,8 +1,8 @@
 package dev.vrba.botner.discord.commands;
 
-public enum RequiredCommandRole
+public class RequiredCommandRole
 {
-    ANYBODY,
-    VERIFIED,
-    MOD,
+    public long id;
+
+    public String name;
 }

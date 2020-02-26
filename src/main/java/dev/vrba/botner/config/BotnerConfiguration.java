@@ -2,7 +2,6 @@ package dev.vrba.botner.config;
 
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class BotnerConfiguration
@@ -13,7 +12,7 @@ public class BotnerConfiguration
 
     public List<RoleAssigningMessage> roleAssigningMessages;
 
-    public HashMap<RequiredCommandRole, Long> mappedPermissionRoles;
+    public List<RequiredCommandRole> mappedPermissionRoles;
 
     public void setGlobalInstance(BotnerConfiguration instance)
     {

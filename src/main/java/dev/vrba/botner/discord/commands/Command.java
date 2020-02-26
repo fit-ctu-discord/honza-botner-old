@@ -1,6 +1,8 @@
 package dev.vrba.botner.discord.commands;
 
+import dev.vrba.botner.exception.command.CommandException;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.event.message.MessageCreateEvent;
 
 public abstract class Command
 {
@@ -8,10 +10,5 @@ public abstract class Command
 
     public abstract RequiredCommandRole[] getRequiredRoles();
 
-    /**
-     *
-     * @param message
-     * @return whether the command has failed
-     */
-    public abstract boolean execute(Message message);
+    public abstract void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException;
 }
