@@ -1,0 +1,5 @@
+.idea
+target
+src/main/resources/.env
+# Do not ignore the example env file
+!src/main/resources/.env.example
