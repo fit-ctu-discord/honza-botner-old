@@ -26,12 +26,18 @@ public class SendMessageCommand extends ModCommand
 
         if (parameters.length < 2 || channels.isEmpty())
         {
-            throw new InvalidCommandUsageException("Použítí: `.send #kanal message`");
+            throw new InvalidCommandUsageException();
         }
 
         ServerTextChannel channel = channels.get(0);
         String content = String.join(" ", Arrays.copyOfRange(parameters, 1, parameters.length));
 
         channel.sendMessage(content);
+    }
+
+    @Override
+    public String getUsage()
+    {
+        return "`." + this.getName() + " <channel_mention> <message>`";
     }
 }

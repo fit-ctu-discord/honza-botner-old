@@ -11,4 +11,9 @@ public abstract class Command
     public abstract RequiredCommandRole[] getRequiredRoles();
 
     public abstract void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException;
+
+    public String getUsage()
+    {
+        return "No usage provided by the command `" + this.getName() + "`";
+    }
 }

@@ -1,32 +1,32 @@
 package dev.vrba.botner.discord;
 
-import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiParser;
 import dev.vrba.botner.discord.commands.Command;
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
+import dev.vrba.botner.discord.commands.message.EditMessageCommand;
 import dev.vrba.botner.discord.commands.message.SendMessageCommand;
 import dev.vrba.botner.exception.command.CommandException;
-import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.javacord.api.event.message.MessageEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MessageDispatcher
 {
     private final String prefix = ".";
 
     private List<Command> registeredCommands = List.of(
-            new SendMessageCommand()
+            new SendMessageCommand(),
+            new EditMessageCommand()
     );
 
     public void handleMessage(@NotNull MessageCreateEvent event)
@@ -64,15 +64,17 @@ public class MessageDispatcher
             }
             catch (InvalidCommandUsageException exception)
             {
-                this.reply(event.getMessage(), "Špatné použití příkazu `" + name + "`.\n" + exception.getMessage());
+                this.reply(event.getMessage(), "Špatné použití příkazu `" + name + "`.\n" + command.get().getUsage());
                 this.react(event.getMessage(), ":warning:");
                 return;
             }
             catch (CommandException exception)
             {
+                Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
 
-                this.reply(event.getMessage(), "Při vykonávání příkazu `" + name + "` nastala chyba. \n" + exception.getMessage());
+                this.reply(event.getMessage(), "Při vykonávání příkazu `" + name + "` nastala chyba.");
                 this.react(event.getMessage(), ":x:");
+
                 return;
             }
 
@@ -117,7 +119,7 @@ public class MessageDispatcher
     private void reply(Message message, String content)
     {
         String tag = "<@" + message.getAuthor().getId() + ">";
-        message.getChannel().sendMessage(tag + " ," + content);
+        message.getChannel().sendMessage(tag + "\n" + content);
     }
 
     private Optional<Command> getCommandByName(@NotNull String name)
