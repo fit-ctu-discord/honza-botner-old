@@ -13,7 +13,6 @@ FROM openjdk:11-jre-slim
 COPY --from=build /home/app/target/honza-botner-1.0-SNAPSHOT-jar-with-dependencies.jar /usr/local/lib/botner.jar
 COPY .env /home/app/.env
 COPY config.json /home/app/config.json
-EXPOSE 8080:80
+EXPOSE 8080
 WORKDIR /home/app
 ENTRYPOINT ["java","-jar","/usr/local/lib/botner.jar"]
-

@@ -22,6 +22,8 @@ public class Application
 {
     public static void main(String[] args) throws SQLException
     {
+        Logger logger = Logger.getGlobal();
+
         // Configure environment from the .env file
         Dotenv dotenv = Dotenv.load();
 
@@ -30,7 +32,7 @@ public class Application
         // Load discord token
         if (token == null)
         {
-            Logger.getGlobal().log(Level.SEVERE, "Cannot start without DISCORD_TOKEN being set.");
+            logger.log(Level.SEVERE, "Cannot start without DISCORD_TOKEN being set.");
             return;
         }
 
@@ -41,15 +43,19 @@ public class Application
         }
         catch (IOException e)
         {
-            Logger.getGlobal().log(Level.SEVERE, "Cannot load configuration from the config.json in the application resources.");
+            logger.log(Level.SEVERE, "Cannot load configuration from the config.json in the application resources.");
             return;
         }
+
+        logger.log(Level.INFO, "Loaded configuration");
 
         // Create discord client and connect to the API
         DiscordApi client = new DiscordApiBuilder()
                 .setToken(token)
                 .login()
                 .join();
+
+        logger.log(Level.INFO, "Connected to Discord");
 
         try
         {
@@ -59,12 +65,16 @@ public class Application
             // Start the web server used for verification
             ServerManager server = new ServerManager();
             server.start(client);
+
+            logger.log(Level.INFO, "Started webserver");
         }
         catch (Exception exception)
         {
-            Logger.getGlobal().log(Level.SEVERE, "Cannot establish the database connection.");
+            logger.log(Level.SEVERE, "Cannot establish the database connection.");
             return;
         }
+
+        logger.log(Level.INFO, "Connected to the database");
 
         // Create and bind event listeners
         MessageDispatcher dispatcher = new MessageDispatcher();
@@ -73,6 +83,8 @@ public class Application
         client.addMessageCreateListener(dispatcher::handleMessage);
         client.addReactionAddListener(handler::handleReactionAdded);
         client.addReactionRemoveListener(handler::handleReactionRemoved);
+
+        logger.log(Level.INFO, "Registered event listeners.");
     }
 
     private static BotnerConfiguration loadConfiguration() throws IOException
