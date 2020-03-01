@@ -2,6 +2,7 @@ package dev.vrba.botner.discord.reactions.verification;
 
 import dev.vrba.botner.config.BotnerConfiguration;
 import dev.vrba.botner.config.VerificationMessageConfiguration;
+import dev.vrba.botner.database.entities.UserVerification;
 import dev.vrba.botner.discord.reactions.ReactionHandler;
 import dev.vrba.botner.service.verification.VerificationService;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
@@ -9,6 +10,7 @@ import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,10 +40,18 @@ public class VerificationMessageReactionHandler extends ReactionHandler
             }
         }
 
-        if (
-                event.getMessageId() == verificationMessageId &&
-                        event.getEmoji().equalsEmoji(reactionEmoji)
-        )
+        Optional<UserVerification> verification = this.service.getVerification(event.getUser().getId());
+
+        if (verification.isPresent() && verification.get().isVerified())
+        {
+            event.getUser().sendMessage(
+                    "Už jsi verifikován. V případě potíží kontaktuj moderátory.\n" +
+                    "Tvoje referenční ID: **" + event.getUser().getIdAsString() + "**"
+            );
+            return;
+        }
+
+        if (event.getMessageId() == verificationMessageId && event.getEmoji().equalsEmoji(reactionEmoji))
         {
             event.getUser().sendMessage(
                     "Ahoj, zažádal jsi o verifikaci na FIT ČVUT serveru.\n\n" +

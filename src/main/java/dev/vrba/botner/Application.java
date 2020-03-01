@@ -79,7 +79,7 @@ public class Application
     {
         ObjectMapper mapper = new ObjectMapper();
         ClassLoader classLoader = Application.class.getClassLoader();
-        String resourceFile = Objects.requireNonNull(classLoader.getResource("config.json")).getFile();
+        String resourceFile = "./config.json";
 
         BotnerConfiguration configuration = mapper.readValue(new File(resourceFile), BotnerConfiguration.class);
 

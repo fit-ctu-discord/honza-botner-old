@@ -48,6 +48,28 @@ public class VerificationService
         TableUtils.createTableIfNotExists(source, UserVerification.class);
     }
 
+    public Optional<UserVerification> getVerification(long userId)
+    {
+        List<UserVerification> verifications;
+
+        try
+        {
+            verifications = this.dao.queryForEq("id", userId);
+        }
+        catch (SQLException exception)
+        {
+            this.logger.log(Level.SEVERE, exception.getMessage());
+            return Optional.empty();
+        }
+
+        if (verifications.isEmpty())
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(verifications.get(0));
+    }
+
     public Optional<UserVerification> getVerification(String verificationCode)
     {
         List<UserVerification> verifications;

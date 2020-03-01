@@ -1,5 +1,6 @@
 .idea
 target
-src/main/resources/.env
+.env
+database.sqlite
 # Do not ignore the example env file
-!src/main/resources/.env.example
+!.env.example
