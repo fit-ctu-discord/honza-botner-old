@@ -1,8 +1,8 @@
 {
-  "verificationMessage": {
-    "id": 682244759967760447,
-    "emoji": "✅"
+  "verification": {
+    "id": 683691740883845124,
+    "emoji": "✅",
+    "role": 682358444291784705
   },
-  "roleAssigningMessages": [],
-  "mappedPermissionRoles": []
+  "server": 682209441688322106
 }

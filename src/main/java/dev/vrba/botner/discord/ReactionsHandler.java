@@ -9,6 +9,7 @@ import org.javacord.api.event.message.reaction.ReactionEvent;
 import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ public class ReactionsHandler
     public final List<ReactionHandler> registeredHandlers = List.of(
             new VerificationMessageReactionHandler()
     );
+
+    public ReactionsHandler() throws SQLException { }
 
     public void handleReactionAdded(@NotNull ReactionAddEvent event)
     {

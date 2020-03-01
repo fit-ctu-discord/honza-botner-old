@@ -3,21 +3,24 @@ package dev.vrba.botner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.vrba.botner.config.BotnerConfiguration;
+import dev.vrba.botner.database.DatabaseConnection;
 import dev.vrba.botner.discord.MessageDispatcher;
 import dev.vrba.botner.discord.ReactionsHandler;
+import dev.vrba.botner.server.ServerManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Application
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws SQLException
     {
         // Configure environment from the .env file
         Dotenv dotenv = Dotenv.load();
@@ -47,6 +50,21 @@ public class Application
                 .setToken(token)
                 .login()
                 .join();
+
+        try
+        {
+            // Create database connection
+            new DatabaseConnection(dotenv.get("DATABASE_URL"));
+
+            // Start the web server used for verification
+            ServerManager server = new ServerManager();
+            server.start(client);
+        }
+        catch (Exception exception)
+        {
+            Logger.getGlobal().log(Level.SEVERE, "Cannot establish the database connection.");
+            return;
+        }
 
         // Create and bind event listeners
         MessageDispatcher dispatcher = new MessageDispatcher();

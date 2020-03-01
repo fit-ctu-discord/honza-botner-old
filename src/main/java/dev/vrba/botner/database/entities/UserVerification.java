@@ -17,7 +17,24 @@ public class UserVerification
     @DatabaseField
     private boolean verified;
 
-    public UserVerification() { }
+    public UserVerification()
+    {
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
+    }
+
+    public void setVerificationCode(String verificationCode)
+    {
+        this.verificationCode = verificationCode;
+    }
+
+    public void setVerified(boolean verified)
+    {
+        this.verified = verified;
+    }
 
     public UserVerification(long id)
     {

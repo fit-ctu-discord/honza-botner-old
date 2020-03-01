@@ -8,19 +8,18 @@ public class BotnerConfiguration
 {
     private static BotnerConfiguration globalInstance;
 
-    public VerificationMessageConfiguration verificationMessage;
+    public VerificationMessageConfiguration verification;
 
-    public List<RoleAssigningMessage> roleAssigningMessages;
+    public long server;
 
-    public List<RequiredCommandRole> mappedPermissionRoles;
+    public static BotnerConfiguration getGlobalInstance()
+    {
+        return globalInstance;
+    }
 
     public void setGlobalInstance(BotnerConfiguration instance)
     {
         globalInstance = instance;
     }
 
-    public static BotnerConfiguration getGlobalInstance()
-    {
-        return globalInstance;
-    }
 }

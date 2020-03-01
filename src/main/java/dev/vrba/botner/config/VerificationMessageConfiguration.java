@@ -5,4 +5,6 @@ public class VerificationMessageConfiguration
     public long id;
 
     public String emoji;
+
+    public long role;
 }
