@@ -2,9 +2,6 @@ package dev.vrba.botner.database;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import dev.vrba.botner.database.entities.UserVerification;
-
-import java.sql.SQLException;
 
 public class DatabaseConnection
 {

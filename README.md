@@ -1,4 +1,7 @@
 # Botner
+
+![Logo](./docs/images/logo.png)
+
 ## Discord bot pro fakultní server FIT ČVUT
 
 ## Instalace, spuštění lokální instance
