@@ -47,7 +47,7 @@ public class MessageDispatcher
             Optional<Command> command = this.getCommandByName(name);
 
             // Unknown command
-            if (!command.isPresent())
+            if (command.isEmpty())
             {
                 event.getMessage().addReaction(EmojiParser.parseToUnicode(":man_shrug:"));
                 return;
@@ -89,7 +89,7 @@ public class MessageDispatcher
         Optional<User> user = event.getMessageAuthor().asUser();
         Optional<Server> server = event.getServer();
 
-        if (!user.isPresent() || !server.isPresent())
+        if (user.isEmpty() || server.isEmpty())
         {
             return false;
         }
