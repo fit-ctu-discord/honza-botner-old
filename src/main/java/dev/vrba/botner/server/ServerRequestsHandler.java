@@ -41,12 +41,12 @@ public class ServerRequestsHandler
 
         if (this.service.verifyCode(code))
         {
-            response.send("Byl jsi verifikovan. Behem chvile ti bude na Discordu pridelena role.");
+            response.send("Autentizace proběhla úspěšně. Během chvíle ti bude na Discordu přidělena role.");
             this.service.verify(authId);
             return;
         }
 
-        response.send("Bohuzel nebylo mozne te verifikovat.");
+        response.send("Bohužel tě nebylo možné autentizovat. V případě potíží napiš na Discordu @Mod.");
     }
 
     @DynExpress(context = "/authorize/:id")
