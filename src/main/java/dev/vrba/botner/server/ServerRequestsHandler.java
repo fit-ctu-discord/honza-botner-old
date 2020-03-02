@@ -8,6 +8,7 @@ import express.http.request.Request;
 import express.http.response.Response;
 import org.javacord.api.DiscordApi;
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class ServerRequestsHandler
     {
         String code = request.getQuery("code");
         String authId = request.getCookie("Auth-ID").getValue();
-
+        response.setContentType("text/html; charset=utf-8");
 
         if (code == null || authId == null)
         {
@@ -41,12 +42,12 @@ public class ServerRequestsHandler
 
         if (this.service.verifyCode(code))
         {
-            response.send("Byl jsi verifikovan. Behem chvile ti bude na Discordu pridelena role.");
+            response.send("Autentizace proběhla úspěšně. Během chvíle ti bude na Discordu přidělena role.");
             this.service.verify(authId);
             return;
         }
 
-        response.send("Bohuzel nebylo mozne te verifikovat.");
+        response.send("Bohužel tě nebylo možné autentizovat. V případě potíží napiš na Discordu @Mod.");
     }
 
     @DynExpress(context = "/authenticate/:id")
