@@ -8,6 +8,7 @@ import express.http.request.Request;
 import express.http.response.Response;
 import org.javacord.api.DiscordApi;
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class ServerRequestsHandler
     {
         String code = request.getQuery("code");
         String authId = request.getCookie("Auth-ID").getValue();
-
+        response.setContentType("text/html; charset=utf-8");
 
         if (code == null || authId == null)
         {
