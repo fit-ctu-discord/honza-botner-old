@@ -50,7 +50,7 @@ public class ServerRequestsHandler
         response.send("Bohužel tě nebylo možné autentizovat. V případě potíží napiš na Discordu @Mod.");
     }
 
-    @DynExpress(context = "/authorize/:id")
+    @DynExpress(context = "/authenticate/:id")
     public void redirect(Request request, Response response)
     {
         String id = request.getParam("id");
@@ -65,11 +65,5 @@ public class ServerRequestsHandler
         }
 
         response.send("Invalid verification id.");
-    }
-
-    @DynExpress(context = "/authorized")
-    public void success(Request request, Response response)
-    {
-
     }
 }

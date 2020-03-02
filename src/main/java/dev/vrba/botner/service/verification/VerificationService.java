@@ -124,7 +124,7 @@ public class VerificationService
             return "**Při vytváření odkazu nastala chyba.**";
         }
 
-        return this.env.get("SERVER_URL") + "/authorize/" + verification.getVerificationCode();
+        return this.env.get("SERVER_URL") + "/authenticate/" + verification.getVerificationCode();
     }
 
     public String getRedirectLink()
