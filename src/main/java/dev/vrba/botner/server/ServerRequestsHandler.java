@@ -49,7 +49,7 @@ public class ServerRequestsHandler
         response.send("Bohuzel nebylo mozne te verifikovat.");
     }
 
-    @DynExpress(context = "/authorize/:id")
+    @DynExpress(context = "/authenticate/:id")
     public void redirect(Request request, Response response)
     {
         String id = request.getParam("id");
@@ -64,11 +64,5 @@ public class ServerRequestsHandler
         }
 
         response.send("Invalid verification id.");
-    }
-
-    @DynExpress(context = "/authorized")
-    public void success(Request request, Response response)
-    {
-
     }
 }
