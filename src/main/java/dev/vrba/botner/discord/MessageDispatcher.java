@@ -56,7 +56,7 @@ public class MessageDispatcher
             if (!this.isUserEligibleToRunCommand(event, command.get()))
             {
                 this.reply(event.getMessage(), "Pro tento příkaz nemáš dostatečná oprávnění.");
-                this.react(event.getMessage(), ":splayed_hand:");
+                this.react(event.getMessage(), ":skull_crossbones:");
                 return;
             }
 
@@ -95,7 +95,17 @@ public class MessageDispatcher
         }
 
         List<Role> roles = user.get().getRoles(server.get());
-        RequiredCommandRole[] requiredRoles = command.getRequiredRoles();
+
+        RequiredCommandRole[] requiredRoles;
+
+        try
+        {
+           requiredRoles = command.getRequiredRoles();
+        }
+        catch (RuntimeException exception)
+        {
+            return false;
+        }
 
         for (RequiredCommandRole requiredRole : requiredRoles)
         {

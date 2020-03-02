@@ -14,7 +14,6 @@ import org.javacord.api.DiscordApiBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,11 +38,11 @@ public class Application
         // Load bot configuration
         try
         {
-            BotnerConfiguration configuration = loadConfiguration();
+            Application.loadConfiguration(dotenv.get("CONFIG_FILE"));
         }
         catch (IOException e)
         {
-            logger.log(Level.SEVERE, "Cannot load configuration from the config.json in the application resources.");
+            logger.log(Level.SEVERE, "Cannot load configuration from the config.development.json in the application resources.");
             return;
         }
 
@@ -87,16 +86,11 @@ public class Application
         logger.log(Level.INFO, "Registered event listeners.");
     }
 
-    private static BotnerConfiguration loadConfiguration() throws IOException
+    private static void loadConfiguration(String source) throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
-        ClassLoader classLoader = Application.class.getClassLoader();
-        String resourceFile = "./config.json";
-
-        BotnerConfiguration configuration = mapper.readValue(new File(resourceFile), BotnerConfiguration.class);
+        BotnerConfiguration configuration = mapper.readValue(new File(source), BotnerConfiguration.class);
 
         configuration.setGlobalInstance(configuration);
-
-        return configuration;
     }
 }
