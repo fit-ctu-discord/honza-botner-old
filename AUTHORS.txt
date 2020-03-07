@@ -1,0 +1,4 @@
+Authors ordered by first contribution.
+
+Jiří Vrba <jiri@vrba.dev>
+Jan Bittner <git@tenhobi.dev>
