@@ -21,6 +21,8 @@ public class Application
 {
     public static void main(String[] args) throws SQLException
     {
+        System.out.println("OMFG FUNGUJ");
+
         Logger logger = Logger.getGlobal();
 
         // Configure environment from the .env file
@@ -63,7 +65,10 @@ public class Application
 
             // Start the web server used for verification
             ServerManager server = new ServerManager();
-            server.start(client);
+            System.out.println(args.length);
+            System.out.println(args[0]);
+            int port = Integer.parseInt(args[0]);
+            server.start(client, port);
 
             logger.log(Level.INFO, "Started webserver");
         }

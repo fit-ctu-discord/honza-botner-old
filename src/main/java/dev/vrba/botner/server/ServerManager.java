@@ -15,10 +15,10 @@ public class ServerManager
         this.server = new Express();
     }
 
-    public void start(DiscordApi api) throws Exception
+    public void start(DiscordApi api, int port) throws Exception
     {
         this.server.bind(new ServerRequestsHandler(api));
-        this.server.listen(80);
+        this.server.listen(port);
     }
 
     public void stop()
