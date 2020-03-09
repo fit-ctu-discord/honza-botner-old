@@ -21,8 +21,12 @@ public class ServerManager
         //this.server.listen(port);
 
         this.server.get("/", (req, res) -> {
-            res.send("Hello World");
-        }).listen(); //
+            res.send("Alpha");
+        }).listen();
+
+        this.server.get("/", (req, res) -> {
+            res.send("Beta");
+        }).listen(port);
     }
 
     public void stop()
