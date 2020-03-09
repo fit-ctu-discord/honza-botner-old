@@ -2,4 +2,4 @@ build:
 docker:
     web: Dockerfile
 run:
-    web: Dockerfile
+    web: ocker run -it --rm -p 80:80 botner:latest
