@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar /usr/local/lib/botner.jar --port $PORT
+web: docker run -p 80:80 botner:latest
