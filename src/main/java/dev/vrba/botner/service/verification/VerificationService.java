@@ -109,7 +109,7 @@ public class VerificationService
 
         if (verification != null && !verification.isVerified())
         {
-            return this.env.get("SERVER_URL") + "/authorize/" + verification.getVerificationCode();
+            return this.env.get("SERVER_URL") + "/authenticate/" + verification.getVerificationCode();
         }
 
         // User has not requested a verification yet
