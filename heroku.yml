@@ -1,5 +1,5 @@
 build:
 docker:
-    web: Dockerfile
+  web: Dockerfile
 run:
-    web: ocker run -it --rm -p 80:80 botner:latest
+  web: docker run -it --rm -p $PORT:80 botner:latest
