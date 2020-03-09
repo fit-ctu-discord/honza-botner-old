@@ -18,5 +18,4 @@ COPY config.development.json /home/app/config.development.json
 COPY config.production.json /home/app/config.production.json
 EXPOSE 8080
 WORKDIR /home/app
-#ENTRYPOINT ["java","-jar","/usr/local/lib/botner.jar"]
-CMD [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /usr/local/lib/botner.jar" ]
+ENTRYPOINT ["java","-jar","/usr/local/lib/botner.jar"]
