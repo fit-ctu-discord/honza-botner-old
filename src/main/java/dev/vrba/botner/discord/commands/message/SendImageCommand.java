@@ -25,14 +25,14 @@ public class SendImageCommand extends ModCommand
     {
         List<ServerTextChannel> channels = event.getMessage().getMentionedChannels();
 
-        if (parameters.length < 2 || channels.isEmpty())
+        if (parameters.length < 3 || channels.isEmpty())
         {
             throw new InvalidCommandUsageException();
         }
 
         ServerTextChannel channel = channels.get(0);
-        String imageUrl = parameters[0];
-        String text = String.join(" ", Arrays.copyOfRange(parameters, 1, parameters.length));
+        String imageUrl = parameters[1];
+        String text = String.join(" ", Arrays.copyOfRange(parameters, 2, parameters.length));
 
         channel.sendMessage(text, new EmbedBuilder().setImage(imageUrl));
     }
@@ -40,6 +40,6 @@ public class SendImageCommand extends ModCommand
     @Override
     public String getUsage()
     {
-        return "`." + this.getName() + " <image_url> <message>`";
+        return "`." + this.getName() + " <channel_mention> <image_url> <message>`";
     }
 }
