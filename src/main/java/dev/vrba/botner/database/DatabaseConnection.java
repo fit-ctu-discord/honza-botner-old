@@ -3,6 +3,8 @@ package dev.vrba.botner.database;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 
+import java.net.URI;
+
 public class DatabaseConnection
 {
     private ConnectionSource source;
@@ -11,7 +13,13 @@ public class DatabaseConnection
 
     public DatabaseConnection(String databaseUrl) throws Exception
     {
-        this.source = new JdbcConnectionSource(databaseUrl);
+        URI databaseUri = new URI(databaseUrl);
+
+        String username = databaseUri.getUserInfo().split(":")[0];
+        String password = databaseUri.getUserInfo().split(":")[1];
+        String url = "jdbc:postgresql://" + databaseUri.getHost() + ':' + databaseUri.getPort() + databaseUri.getPath() + "?sslmode=require";
+
+        this.source = new JdbcConnectionSource(url, username, password);
         globalInstance = this;
     }
 

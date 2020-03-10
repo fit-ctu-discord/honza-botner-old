@@ -70,7 +70,7 @@ public class Application
         }
         catch (Exception exception)
         {
-            logger.log(Level.SEVERE, "Cannot establish the database connection.");
+            logger.log(Level.SEVERE, exception.getMessage());
             return;
         }
 
