@@ -5,8 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "user_verifications")
-public class UserVerification
-{
+public class UserVerification {
     // Discord id
     @DatabaseField(id = true)
     private long id;
@@ -17,44 +16,47 @@ public class UserVerification
     @DatabaseField
     private boolean verified;
 
-    public UserVerification()
-    {
+    @DatabaseField(canBeNull = true)
+    private String authId;
+
+    public UserVerification() {
     }
 
-    public void setId(long id)
-    {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public void setVerificationCode(String verificationCode)
-    {
+    public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
 
-    public void setVerified(boolean verified)
-    {
+    public void setVerified(boolean verified) {
         this.verified = verified;
     }
 
-    public UserVerification(long id)
-    {
+    public UserVerification(long id) {
         this.id = id;
         this.verificationCode = java.util.UUID.randomUUID().toString();
         this.verified = false;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public boolean isVerified()
-    {
+    public boolean isVerified() {
         return verified;
     }
 
-    public String getVerificationCode()
-    {
+    public String getVerificationCode() {
         return this.verificationCode;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
     }
 }

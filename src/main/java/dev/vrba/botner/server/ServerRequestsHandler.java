@@ -2,6 +2,7 @@ package dev.vrba.botner.server;
 
 import dev.vrba.botner.config.BotnerConfiguration;
 import dev.vrba.botner.database.entities.UserVerification;
+import dev.vrba.botner.exception.verification.UserUsesSharedAccountException;
 import dev.vrba.botner.service.verification.VerificationService;
 import express.DynExpress;
 import express.http.Cookie;
@@ -42,10 +43,21 @@ public class ServerRequestsHandler
             return;
         }
 
-        if (this.service.verifyCode(code))
+        String user = this.service.verifyCode(code);
+
+        if (user != null)
         {
+            try
+            {
+                this.service.verify(authId, user);
+            }
+            catch(UserUsesSharedAccountException exception)
+            {
+                response.send("Tento OAuth účet byl již použit pro autentikaci někoho jiného. V případě problémů napiš @Mod.");
+                return;
+            }
+
             response.send("Autentizace proběhla úspěšně. Během chvíle ti bude na Discordu přidělena role.");
-            this.service.verify(authId);
             return;
         }
 

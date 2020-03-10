@@ -7,10 +7,12 @@ import com.j256.ormlite.table.TableUtils;
 import dev.vrba.botner.config.BotnerConfiguration;
 import dev.vrba.botner.database.DatabaseConnection;
 import dev.vrba.botner.database.entities.UserVerification;
+import dev.vrba.botner.exception.verification.UserUsesSharedAccountException;
 import io.github.cdimascio.dotenv.Dotenv;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
@@ -20,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -136,7 +139,7 @@ public class VerificationService
         return "https://auth.fit.cvut.cz/oauth/authorize?response_type=code&client_id=" + id + "&redirect_uri=" + redirect;
     }
 
-    public boolean verifyCode(String code)
+    public String verifyCode(String code)
     {
         String authorizationSource = this.env.get("CVUT_AUTH_ID") + ":" + this.env.get("CVUT_AUTH_SECRET");
         String authorization = "Basic " + new String(Base64.getEncoder().encode(authorizationSource.getBytes()));
@@ -148,11 +151,28 @@ public class VerificationService
                 .header("Authorization", authorization)
                 .asJson();
 
-        return response.isSuccess();
+        if (!response.isSuccess())
+        {
+            return null;
+        }
+
+        String token = response.getBody().getObject().getString("access_token");
+
+        HttpResponse<JsonNode> verification = Unirest.get("https://auth.fit.cvut.cz/oauth/check_token")
+                .queryString("token", token)
+                .asJson();
+
+        if (!response.isSuccess()) {
+            return null;
+        }
+
+        String username = verification.getBody().getObject().getString("user_name");
+
+        // Hash the user name
+        return DigestUtils.sha256Hex(username);
     }
 
-    public void verify(String verificationCode)
-    {
+    public void verify(String verificationCode, String usernameHash) throws UserUsesSharedAccountException {
         this.logger.log(Level.INFO, verificationCode);
         try
         {
@@ -163,8 +183,21 @@ public class VerificationService
                 return;
             }
 
+            // Check if the given username has another verification
+            List<UserVerification> verifications = this.dao.queryForEq("authId", usernameHash);
+
+
             UserVerification verification = _verification.get();
+
+            if (!verifications.isEmpty())
+            {
+                UserVerification entry = verifications.get(0);
+                this.logger.log(Level.SEVERE, "User with id " + verification.getId() + " is using the same account as " + entry.getId());
+                throw new UserUsesSharedAccountException();
+            }
+
             verification.setVerified(true);
+            verification.setAuthId(usernameHash);
 
             this.dao.update(verification);
 
@@ -197,7 +230,7 @@ public class VerificationService
             }
 
         }
-        catch (Exception exception)
+        catch (SQLException | InterruptedException | ExecutionException exception)
         {
             this.logger.log(Level.SEVERE, exception.getMessage());
         }
