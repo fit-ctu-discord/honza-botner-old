@@ -21,10 +21,10 @@ public class ServerRequestsHandler
         this.service = new VerificationService(api);
     }
 
-    @DynExpress(context = "/")
+    @DynExpress()
     public void index(Request request, Response response)
     {
-        response.send("It' works!");
+        response.send("It works!");
     }
 
     @DynExpress(context = "/callback")

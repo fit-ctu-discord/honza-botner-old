@@ -17,12 +17,8 @@ public class ServerManager
 
     public void start(DiscordApi api, int port) throws Exception
     {
-        //this.server.bind(new ServerRequestsHandler(api));
-        //this.server.listen(port);
-
-        this.server.get("/", (req, res) -> {
-            res.send("Alpha");
-        }).listen();
+        this.server.bind(new ServerRequestsHandler(api));
+        this.server.listen(port);
 
         this.server.get("/", (req, res) -> {
             res.send("Beta");
