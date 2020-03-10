@@ -25,7 +25,7 @@ public class SendImageCommand extends ModCommand
     {
         List<ServerTextChannel> channels = event.getMessage().getMentionedChannels();
 
-        if (parameters.length < 3 || channels.isEmpty())
+        if (parameters.length < 2 || channels.isEmpty())
         {
             throw new InvalidCommandUsageException();
         }
