@@ -21,7 +21,7 @@ public class ServerRequestsHandler
         this.service = new VerificationService(api);
     }
 
-    @DynExpress()
+    @DynExpress(context = "/")
     public void index(Request request, Response response)
     {
         response.send("It works!");
