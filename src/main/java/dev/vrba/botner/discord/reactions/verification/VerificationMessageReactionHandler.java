@@ -26,6 +26,9 @@ public class VerificationMessageReactionHandler extends ReactionHandler
         final long verificationMessageId = configuration.id;
         final String reactionEmoji = configuration.emoji;
 
+        // Only for registered message.
+        if (event.getMessageId() != verificationMessageId || !event.getEmoji().equalsEmoji(reactionEmoji)) return;
+
         if (this.service == null)
         {
             try
@@ -51,15 +54,12 @@ public class VerificationMessageReactionHandler extends ReactionHandler
             return;
         }
 
-        if (event.getMessageId() == verificationMessageId && event.getEmoji().equalsEmoji(reactionEmoji))
-        {
-            event.getUser().sendMessage(
-                    "Ahoj, zažádal jsi o verifikaci na FIT ČVUT serveru.\n\n" +
-                            "Pro ověření navštiv následující unikátní odkaz:\n" +
-                            "<" + this.service.getVerificationLink(event.getUser().getId()) + ">\n\n" +
-                            "Po autentizaci ti bude zpřístupněn server. V případě dotazů neváhej kontaktovat moderátory."
-            );
-        }
+        event.getUser().sendMessage(
+                "Ahoj, zažádal jsi o verifikaci na FIT ČVUT serveru.\n\n" +
+                        "Pro ověření navštiv následující unikátní odkaz:\n" +
+                        "<" + this.service.getVerificationLink(event.getUser().getId()) + ">\n\n" +
+                        "Po autentizaci ti bude zpřístupněn server. V případě dotazů neváhej kontaktovat moderátory."
+        );
     }
 
     @Override
