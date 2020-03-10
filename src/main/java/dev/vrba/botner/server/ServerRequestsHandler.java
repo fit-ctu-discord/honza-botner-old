@@ -1,5 +1,6 @@
 package dev.vrba.botner.server;
 
+import dev.vrba.botner.config.BotnerConfiguration;
 import dev.vrba.botner.database.entities.UserVerification;
 import dev.vrba.botner.service.verification.VerificationService;
 import express.DynExpress;
@@ -7,6 +8,7 @@ import express.http.Cookie;
 import express.http.request.Request;
 import express.http.response.Response;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.server.Server;
 
 import java.nio.file.Paths;
 import java.sql.SQLException;

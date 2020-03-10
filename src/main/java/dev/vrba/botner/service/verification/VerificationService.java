@@ -153,6 +153,7 @@ public class VerificationService
 
     public void verify(String verificationCode)
     {
+        this.logger.log(Level.INFO, verificationCode);
         try
         {
             Optional<UserVerification> _verification = this.getVerification(verificationCode);
@@ -175,7 +176,6 @@ public class VerificationService
                 Server server = _server.get();
                 User user = api.getUserById(verification.getId()).get();
 
-
                 Optional<Role> role = server.getRoles()
                         .stream()
                         .filter(item -> item.getId() == this.configuration.verification.role)
@@ -186,6 +186,8 @@ public class VerificationService
                     this.logger.log(Level.SEVERE, "Cannot find role with id " + this.configuration.verification.role);
                     return;
                 }
+
+                this.logger.log(Level.INFO, "Adding Authenticated role to " + user.getNicknameMentionTag());
 
                 server.addRoleToUser(user, role.get());
             }
