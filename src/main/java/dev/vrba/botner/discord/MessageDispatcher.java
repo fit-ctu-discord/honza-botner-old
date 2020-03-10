@@ -5,6 +5,7 @@ import dev.vrba.botner.discord.commands.Command;
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
 import dev.vrba.botner.discord.commands.message.EditMessageCommand;
 import dev.vrba.botner.discord.commands.message.ReactToMessageCommand;
+import dev.vrba.botner.discord.commands.message.SendImageCommand;
 import dev.vrba.botner.discord.commands.message.SendMessageCommand;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
@@ -27,6 +28,7 @@ public class MessageDispatcher
 
     private List<Command> registeredCommands = List.of(
             new SendMessageCommand(),
+            new SendImageCommand(),
             new EditMessageCommand(),
             new ReactToMessageCommand()
     );

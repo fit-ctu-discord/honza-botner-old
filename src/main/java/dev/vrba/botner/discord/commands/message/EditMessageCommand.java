@@ -44,13 +44,9 @@ public class EditMessageCommand extends MessageCommand
                 message.get().edit(content);
                 return;
             }
-            // The message was not sent by used
-            throw new CommandExecutionException();
         }
-        else
-        {
-            throw new CommandExecutionException();
-        }
+
+        throw new CommandExecutionException();
     }
 
     @Override
