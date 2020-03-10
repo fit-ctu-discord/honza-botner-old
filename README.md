@@ -19,5 +19,3 @@ Pro sestavení Docker containeru je pak potřeba zavolat:
 
 Poté, co se container sestaví, je možné ho spusit pomocí příkazu:
 `docker run -it -p 80:80 botner:latest`
-
-Zatím that's all folks.
