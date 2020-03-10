@@ -176,8 +176,6 @@ public class VerificationService
                 Server server = _server.get();
                 User user = api.getUserById(verification.getId()).get();
 
-                this.logger.log(Level.INFO, user.getNicknameMentionTag());
-
                 Optional<Role> role = server.getRoles()
                         .stream()
                         .filter(item -> item.getId() == this.configuration.verification.role)
@@ -189,7 +187,7 @@ public class VerificationService
                     return;
                 }
 
-                this.logger.log(Level.INFO, role.get().getMentionTag());
+                this.logger.log(Level.INFO, "Adding Authenticated role to " + user.getNicknameMentionTag());
 
                 server.addRoleToUser(user, role.get());
             }

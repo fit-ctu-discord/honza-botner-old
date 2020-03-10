@@ -56,7 +56,7 @@ public class VerificationMessageReactionHandler extends ReactionHandler
             event.getUser().sendMessage(
                     "Ahoj, zažádal jsi o verifikaci na FIT ČVUT serveru.\n\n" +
                             "Pro ověření navštiv následující unikátní odkaz:\n" +
-                            this.service.getVerificationLink(event.getUser().getId()) + "\n\n" +
+                            "<" + this.service.getVerificationLink(event.getUser().getId()) + ">\n\n" +
                             "Po autentizaci ti bude zpřístupněn server. V případě dotazů neváhej kontaktovat moderátory."
             );
         }
