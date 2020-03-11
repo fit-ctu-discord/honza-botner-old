@@ -7,6 +7,7 @@ import dev.vrba.botner.discord.commands.message.EditMessageCommand;
 import dev.vrba.botner.discord.commands.message.ReactToMessageCommand;
 import dev.vrba.botner.discord.commands.message.SendImageCommand;
 import dev.vrba.botner.discord.commands.message.SendMessageCommand;
+import dev.vrba.botner.discord.commands.presence.SetBotActivityCommand;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.message.Message;
@@ -30,7 +31,8 @@ public class MessageDispatcher
             new SendMessageCommand(),
             new SendImageCommand(),
             new EditMessageCommand(),
-            new ReactToMessageCommand()
+            new ReactToMessageCommand(),
+            new SetBotActivityCommand()
     );
 
     public void handleMessage(@NotNull MessageCreateEvent event)
