@@ -9,11 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.KnownCustomEmoji;
 import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.sql.SQLException;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,12 +33,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
             }
 
             List<CountedEmoji> results = this.counter.all();
-            Comparator<CountedEmoji> sortByUsage = new Comparator<CountedEmoji>() {
-                @Override
-                public int compare(CountedEmoji first, CountedEmoji second) {
-                    return (int) (first.times - second.times);
-                }
-            };
+            Comparator<CountedEmoji> sortByUsage = Comparator.comparing(CountedEmoji::getUsagePerDay);
 
             if (parameters.length > 0 && parameters[0].equals("reverse")) {
                 results.sort(sortByUsage);
@@ -50,8 +43,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
 
             Optional<TextChannel> channel = event.getChannel().asTextChannel();
 
-            if (channel.isEmpty())
-            {
+            if (channel.isEmpty()) {
                 throw new CommandExecutionException();
             }
 
@@ -66,28 +58,21 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
 
                 Optional<KnownCustomEmoji> _wrapper = event.getApi().getCustomEmojiById(result.id);
 
-                if (_wrapper.isPresent())
-                {
+                if (_wrapper.isPresent()) {
                     KnownCustomEmoji emoji = _wrapper.get();
 
-                    long daysInUsage = ChronoUnit.DAYS.between(new Date().toInstant(), result.firstUsedAt.toInstant()) + 1;
-                    double coefficient = (double) result.times / daysInUsage;
 
                     builder.append(emoji.getMentionTag())
-                            .append("\t`")
-                            .append(StringUtils.leftPad(String.valueOf(result.times), 6, " "))
-                            .append("× ~")
-                            .append(StringUtils.leftPad(String.valueOf(Math.round(coefficient)), 6, " "))
+                            .append("`")
+                            .append(StringUtils.leftPad(String.valueOf(result.getUsagePerDay()), 10, " "))
                             .append("×/day`")
-                            .append(emojisAppended % 2 == 0 ? "\t" : "\n");
-
+                            .append(emojisAppended % 3 == 2 ? "\n" : "\t");
 
 
                     emojisAppended++;
                 }
 
-                if (emojisAppended == chunkSize)
-                {
+                if (emojisAppended == chunkSize) {
                     channel.get().sendMessage(builder.toString());
                     builder.setLength(0);
                     emojisAppended = 0;

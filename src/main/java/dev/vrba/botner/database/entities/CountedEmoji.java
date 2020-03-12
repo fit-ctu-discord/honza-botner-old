@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @DatabaseTable(tableName = "counted_emoji")
@@ -26,4 +27,10 @@ public class CountedEmoji {
 
     @DatabaseField(dataType = DataType.DATE)
     public Date firstUsedAt;
+
+    public double getUsagePerDay()
+    {
+        long daysInUsage = ChronoUnit.DAYS.between(new Date().toInstant(), this.firstUsedAt.toInstant()) + 1;
+        return (double) this.times / daysInUsage;
+    }
 }
