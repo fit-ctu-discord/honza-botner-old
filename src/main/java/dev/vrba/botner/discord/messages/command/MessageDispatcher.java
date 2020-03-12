@@ -9,6 +9,7 @@ import dev.vrba.botner.discord.commands.message.ReactToMessageCommand;
 import dev.vrba.botner.discord.commands.message.SendImageCommand;
 import dev.vrba.botner.discord.commands.message.SendMessageCommand;
 import dev.vrba.botner.discord.commands.presence.SetBotActivityCommand;
+import dev.vrba.botner.discord.commands.utils.CreateSuggestionCommand;
 import dev.vrba.botner.discord.messages.MessageHandler;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
@@ -35,7 +36,8 @@ public class MessageDispatcher extends MessageHandler
             new EditMessageCommand(),
             new ReactToMessageCommand(),
             new SetBotActivityCommand(),
-            new ListEmojiCountingStatsCommand()
+            new ListEmojiCountingStatsCommand(),
+            new CreateSuggestionCommand()
     );
 
     public void handleMessageCreated(@NotNull MessageCreateEvent event)
