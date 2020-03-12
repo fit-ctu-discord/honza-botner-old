@@ -3,6 +3,7 @@ package dev.vrba.botner.discord.commands.emoji;
 import dev.vrba.botner.database.entities.CountedEmoji;
 import dev.vrba.botner.discord.commands.ModCommand;
 import dev.vrba.botner.exception.command.CommandException;
+import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.service.verification.EmojiCounter;
 import org.apache.commons.lang3.StringUtils;
 import org.javacord.api.entity.channel.TextChannel;
@@ -47,34 +48,54 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
                 results.sort(Collections.reverseOrder(sortByUsage));
             }
 
+            Optional<TextChannel> channel = event.getChannel().asTextChannel();
+
+            if (channel.isEmpty())
+            {
+                throw new CommandExecutionException();
+            }
+
+            channel.get().sendMessage("**Statistika používání custom emotes**");
+
             StringBuilder builder = new StringBuilder();
 
-            builder.append("**Statistika používání custom emotes**\n");
+            int emojisAppended = 0;
 
             for (CountedEmoji result : results) {
 
                 Optional<KnownCustomEmoji> _wrapper = event.getApi().getCustomEmojiById(result.id);
 
-                _wrapper.ifPresent(knownCustomEmoji -> {
+                if (_wrapper.isPresent())
+                {
+                    KnownCustomEmoji emoji = _wrapper.get();
+
                     long daysInUsage = ChronoUnit.DAYS.between(new Date().toInstant(), result.firstUsedAt.toInstant()) + 1;
                     double coefficient = (double) result.times / daysInUsage;
 
-                    builder.append(knownCustomEmoji.getMentionTag())
+                    builder.append(emoji.getMentionTag())
                             .append("\t`")
                             .append(StringUtils.leftPad(String.valueOf(result.times), 6, " "))
                             .append("× ~")
                             .append(StringUtils.leftPad(String.valueOf(Math.round(coefficient)), 6, " "))
                             .append("×/day`\n");
-                });
+
+                    emojisAppended++;
+                }
+
+                if (emojisAppended == 50)
+                {
+                    channel.get().sendMessage(builder.toString());
+                    builder.setLength(0);
+                    emojisAppended = 0;
+                }
             }
 
-            Optional<TextChannel> channel = event.getChannel().asTextChannel();
-            channel.ifPresent(textChannel -> textChannel.sendMessage(builder.toString()));
+            channel.get().sendMessage(builder.toString());
+            builder.setLength(0);
+
         } catch (SQLException exception) {
             Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
-
-            Optional<TextChannel> channel = event.getChannel().asTextChannel();
-            channel.ifPresent(textChannel -> textChannel.sendMessage("Při získávání statistiky došlo k chybě"));
+            throw new CommandExecutionException();
         }
     }
 }
