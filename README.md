@@ -6,7 +6,7 @@
 
 ## Instalace, spuštění lokální instance
 
-V první řádě je potřeba na čílovém PC rozchodit [Docker](https://docker.com)
+V první řádě je potřeba na cílovém PC rozchodit [Docker](https://docker.com).
 
 Pro správné spuštění je potřeba nakopírovat soubor **.env.example** do
 souboru **.env** (tedy jen odebrat .example na konci) a tam nastavit patřičné hodnoty.
