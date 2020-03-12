@@ -60,6 +60,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
             StringBuilder builder = new StringBuilder();
 
             int emojisAppended = 0;
+            final int chunkSize = 30;
 
             for (CountedEmoji result : results) {
 
@@ -82,7 +83,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
                     emojisAppended++;
                 }
 
-                if (emojisAppended == 50)
+                if (emojisAppended == chunkSize)
                 {
                     channel.get().sendMessage(builder.toString());
                     builder.setLength(0);
