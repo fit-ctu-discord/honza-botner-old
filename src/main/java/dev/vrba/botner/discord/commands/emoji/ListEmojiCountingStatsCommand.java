@@ -78,7 +78,10 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
                             .append(StringUtils.leftPad(String.valueOf(result.times), 6, " "))
                             .append("× ~")
                             .append(StringUtils.leftPad(String.valueOf(Math.round(coefficient)), 6, " "))
-                            .append("×/day`\n");
+                            .append("×/day`")
+                            .append(emojisAppended % 2 == 0 ? "\t" : "\n");
+
+
 
                     emojisAppended++;
                 }
