@@ -4,6 +4,8 @@ import org.javacord.api.event.message.reaction.ReactionAddEvent;
 import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
+
 public abstract class ReactionHandler
 {
     public abstract void handleReactionAdded(@NotNull ReactionAddEvent event);

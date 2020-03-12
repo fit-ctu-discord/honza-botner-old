@@ -1,13 +1,15 @@
-package dev.vrba.botner.discord;
+package dev.vrba.botner.discord.messages.command;
 
 import com.vdurmont.emoji.EmojiParser;
 import dev.vrba.botner.discord.commands.Command;
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
+import dev.vrba.botner.discord.commands.emoji.ListEmojiCountingStatsCommand;
 import dev.vrba.botner.discord.commands.message.EditMessageCommand;
 import dev.vrba.botner.discord.commands.message.ReactToMessageCommand;
 import dev.vrba.botner.discord.commands.message.SendImageCommand;
 import dev.vrba.botner.discord.commands.message.SendMessageCommand;
 import dev.vrba.botner.discord.commands.presence.SetBotActivityCommand;
+import dev.vrba.botner.discord.messages.MessageHandler;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.message.Message;
@@ -23,7 +25,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageDispatcher
+public class MessageDispatcher extends MessageHandler
 {
     private final String prefix = ".";
 
@@ -32,10 +34,11 @@ public class MessageDispatcher
             new SendImageCommand(),
             new EditMessageCommand(),
             new ReactToMessageCommand(),
-            new SetBotActivityCommand()
+            new SetBotActivityCommand(),
+            new ListEmojiCountingStatsCommand()
     );
 
-    public void handleMessage(@NotNull MessageCreateEvent event)
+    public void handleMessageCreated(@NotNull MessageCreateEvent event)
     {
         if (this.shouldIgnore(event))
         {

@@ -2,9 +2,12 @@ package dev.vrba.botner;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j256.ormlite.table.TableUtils;
 import dev.vrba.botner.config.BotnerConfiguration;
 import dev.vrba.botner.database.DatabaseConnection;
-import dev.vrba.botner.discord.MessageDispatcher;
+import dev.vrba.botner.database.entities.CountedEmoji;
+import dev.vrba.botner.database.entities.UserVerification;
+import dev.vrba.botner.discord.MessagesHandler;
 import dev.vrba.botner.discord.ReactionsHandler;
 import dev.vrba.botner.server.ServerManager;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -76,13 +79,16 @@ public class Application
 
         logger.log(Level.INFO, "Connected to the database");
 
-        // Create and bind event listeners
-        MessageDispatcher dispatcher = new MessageDispatcher();
-        ReactionsHandler handler = new ReactionsHandler();
+        TableUtils.createTableIfNotExists(DatabaseConnection.getGlobalInstance().getSource(), UserVerification.class);
+        TableUtils.createTableIfNotExists(DatabaseConnection.getGlobalInstance().getSource(), CountedEmoji.class);
 
-        client.addMessageCreateListener(dispatcher::handleMessage);
-        client.addReactionAddListener(handler::handleReactionAdded);
-        client.addReactionRemoveListener(handler::handleReactionRemoved);
+        // Create and bind event listeners
+        MessagesHandler messagesHandler = new MessagesHandler();
+        ReactionsHandler reactionsHandler = new ReactionsHandler();
+
+        client.addMessageCreateListener(messagesHandler::handleMessageCreated);
+        client.addReactionAddListener(reactionsHandler::handleReactionAdded);
+        client.addReactionRemoveListener(reactionsHandler::handleReactionRemoved);
 
         logger.log(Level.INFO, "Registered event listeners.");
     }

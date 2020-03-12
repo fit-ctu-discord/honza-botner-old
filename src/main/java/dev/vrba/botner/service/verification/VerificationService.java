@@ -47,8 +47,6 @@ public class VerificationService
         this.dao = DaoManager.createDao(source, UserVerification.class);
         this.env = Dotenv.load();
         this.api = api;
-
-        TableUtils.createTableIfNotExists(source, UserVerification.class);
     }
 
     public Optional<UserVerification> getVerification(long userId)
