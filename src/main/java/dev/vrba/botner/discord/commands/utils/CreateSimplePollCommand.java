@@ -16,10 +16,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CreateSuggestionCommand extends AuthenticatedCommand {
+public class CreateSimplePollCommand extends AuthenticatedCommand {
     @Override
     public String getName() {
-        return "suggest";
+        return "yesno";
     }
 
 
@@ -41,8 +41,9 @@ public class CreateSuggestionCommand extends AuthenticatedCommand {
             EmbedBuilder builder = new EmbedBuilder();
 
             builder.setTitle(String.join(" ", parameters));
+            builder.addField("Created by", tag);
 
-            CompletableFuture<Message> sentMessage = channel.sendMessage(tag + " created a suggestion:", builder);
+            CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
                 sentMessage.get().addReaction(EmojiParser.parseToUnicode(":thumbsup:"));
