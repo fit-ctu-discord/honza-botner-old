@@ -56,6 +56,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
             channel.get().sendMessage("**Statistika používání custom emotes**");
 
             StringBuilder builder = new StringBuilder();
+            builder.append("\n");
 
             int emojisAppended = 0;
             final int chunkSize = 30;
@@ -82,6 +83,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
                 if (emojisAppended == chunkSize) {
                     channel.get().sendMessage(builder.toString());
                     builder.setLength(0);
+                    builder.append("\n");
                     emojisAppended = 0;
                 }
             }
