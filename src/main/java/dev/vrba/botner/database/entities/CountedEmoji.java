@@ -31,9 +31,7 @@ public class CountedEmoji {
 
     public double getUsagePerDay() {
         long daysInUsage = ChronoUnit.DAYS.between(this.firstUsedAt.toInstant(), new Date().toInstant()) + 1;
-        double precise = (double) this.times / daysInUsage;
-        
-        return Math.round(10 * precise) / 10;
+        return (double) this.times / daysInUsage;
     }
 
     public long getTotalUsage() {
