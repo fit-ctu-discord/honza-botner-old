@@ -72,7 +72,7 @@ public class ListEmojiCountingStatsCommand extends ModCommand {
 
                     builder.append(emoji.getMentionTag())
                             .append("`")
-                            .append(StringUtils.leftPad(String.valueOf(total ? result.getTotalUsage() : result.getUsagePerDay()), 10, " "))
+                            .append(StringUtils.leftPad(String.valueOf(total ? result.getTotalUsage() : String.format("%.2f", result.getUsagePerDay())), 10, " "))
                             .append(label)
                             .append("`")
                             .append(emojisAppended % 3 == 2 ? "\n" : "\t");
