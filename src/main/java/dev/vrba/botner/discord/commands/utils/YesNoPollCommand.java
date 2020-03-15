@@ -50,7 +50,7 @@ public class YesNoPollCommand extends AuthenticatedCommand {
             try {
                 sentMessage.get().addReactions(
                         EmojiParser.parseToUnicode(":thumbsup:"),
-                        EmojiParser.parseToUnicode(":thumbsup:")
+                        EmojiParser.parseToUnicode(":thumbsdown:")
                 );
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
