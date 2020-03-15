@@ -6,7 +6,6 @@ import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.channel.TextChannel;
-import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -48,11 +47,11 @@ public class AbcPollCommand extends AuthenticatedCommand {
             EmbedBuilder builder = new EmbedBuilder();
 
             List<String> optionsEmoji = Arrays.asList(
-                ":regional_indicator_a:", ":regional_indicator_b:", ":regional_indicator_c:", ":regional_indicator_d:",
-                ":regional_indicator_e:", ":regional_indicator_f:", ":regional_indicator_g:", ":regional_indicator_h:",
-                ":regional_indicator_i:", ":regional_indicator_j:", ":regional_indicator_k:", ":regional_indicator_l:",
-                ":regional_indicator_m:", ":regional_indicator_n:", ":regional_indicator_o:", ":regional_indicator_p:",
-                ":regional_indicator_q:", ":regional_indicator_r:", ":regional_indicator_s:", ":regional_indicator_t:"
+                "zero", "regional_indicator_b", "regional_indicator_symbol_letter_c", "regional_indicator_d",
+                "regional_indicator_e", "regional_indicator_f", "regional_indicator_g", "regional_indicator_h",
+                "regional_indicator_i", "regional_indicator_j", "regional_indicator_k", "regional_indicator_l",
+                "regional_indicator_m", "regional_indicator_n", "regional_indicator_o", "regional_indicator_p",
+                "regional_indicator_q", "regional_indicator_r", "regional_indicator_s", "regional_indicator_t"
             );
 
             // Match all parameters as "options".
@@ -71,7 +70,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             int optionEmojiIndex = 0;
             try {
                 while (matcher.find()) {
-                    builder.addInlineField(EmojiParser.parseToUnicode(optionsEmoji.get(optionEmojiIndex)), matcher.group(1) != null ? matcher.group(1) : matcher.group());
+                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group(1) != null ? matcher.group(1) : matcher.group());
                     optionEmojiIndex++;
                 }
             } catch (IndexOutOfBoundsException exception) {
@@ -84,7 +83,9 @@ public class AbcPollCommand extends AuthenticatedCommand {
             CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
-                sentMessage.get().addReactions(optionsEmoji.subList(0, optionEmojiIndex).toArray(new String[optionEmojiIndex]));
+                for (int i = 0; i < optionEmojiIndex; i++) {
+                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(":" + optionsEmoji.get(i) + ":"));
+                }
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();

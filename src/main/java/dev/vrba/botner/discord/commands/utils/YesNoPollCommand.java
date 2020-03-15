@@ -23,23 +23,20 @@ public class YesNoPollCommand extends AuthenticatedCommand {
     }
 
     @Override
-    public String getUsage()
-    {
+    public String getUsage() {
         return "`." + this.getName() + " question`";
     }
 
     @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {
 
-        if (parameters.length == 0)
-        {
+        if (parameters.length == 0) {
             throw new InvalidCommandUsageException();
         }
 
         Optional<TextChannel> _channel = event.getChannel().asTextChannel();
 
-        if (_channel.isPresent())
-        {
+        if (_channel.isPresent()) {
             String tag = "<@" + message.getAuthor().getId() + ">";
             TextChannel channel = _channel.get();
 
@@ -51,10 +48,11 @@ public class YesNoPollCommand extends AuthenticatedCommand {
             CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
-                sentMessage.get().addReaction(EmojiParser.parseToUnicode(":thumbsup:"));
-                sentMessage.get().addReaction(EmojiParser.parseToUnicode(":thumbsdown:"));
-            }
-            catch (InterruptedException | ExecutionException exception) {
+                sentMessage.get().addReactions(
+                        EmojiParser.parseToUnicode(":thumbsup:"),
+                        EmojiParser.parseToUnicode(":thumbsup:")
+                );
+            } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();
             }
