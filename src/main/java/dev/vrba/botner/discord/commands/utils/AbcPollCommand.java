@@ -72,7 +72,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             int optionEmojiIndex = 0;
             try {
                 while (matcher.find()) {
-                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group(1) != null ? matcher.group(1) : matcher.group());
+                    builder.addInlineField(EmojiParser.parseToUnicode(optionsEmoji.get(optionEmojiIndex)), matcher.group(1) != null ? matcher.group(1) : matcher.group());
                     optionEmojiIndex++;
                 }
             } catch (IndexOutOfBoundsException exception) {
@@ -86,7 +86,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
             try {
                 for (int i = 0; i < optionEmojiIndex; i++) {
-                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(":" + optionsEmoji.get(i) + ":"));
+                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(optionsEmoji.get(i)));
                 }
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
