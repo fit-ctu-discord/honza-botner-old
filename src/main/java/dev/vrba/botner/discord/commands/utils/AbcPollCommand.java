@@ -6,6 +6,7 @@ import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -83,9 +84,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
-                for (int i = 0; i < optionEmojiIndex; i++) {
-                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(optionsEmoji.get(i)));
-                }
+                sentMessage.get().addReactions(optionsEmoji.subList(0, optionEmojiIndex).toArray(new String[optionEmojiIndex]));
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();
