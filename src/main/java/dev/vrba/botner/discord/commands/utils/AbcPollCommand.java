@@ -29,7 +29,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
     @Override
     public String getUsage()
     {
-        return "`" + this.getName() + " option1 option2 option3...`, max 10";
+        return "`." + this.getName() + " option1 option2 option3...`, max 10";
     }
 
     @Override
