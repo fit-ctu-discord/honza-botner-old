@@ -29,15 +29,13 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
     @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {
-        if (parameters.length == 0)
-        {
+        if (parameters.length == 0) {
             throw new InvalidCommandUsageException();
         }
 
         Optional<TextChannel> _channel = event.getChannel().asTextChannel();
 
-        if (_channel.isPresent())
-        {
+        if (_channel.isPresent()) {
             String tag = "<@" + message.getAuthor().getId() + ">";
             TextChannel channel = _channel.get();
 
@@ -54,8 +52,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             Matcher matcher = regex.matcher(String.join(" ", parameters));
 
             // Message without options
-            if (!matcher.find())
-            {
+            if (!matcher.find()) {
                 throw new InvalidCommandUsageException();
             }
 
@@ -64,7 +61,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             int optionEmojiIndex = 0;
             try {
                 while (matcher.find()) {
-                    builder.addField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group());
+                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group());
                     optionEmojiIndex++;
                 }
             } catch (IndexOutOfBoundsException exception) {
@@ -78,10 +75,9 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
             try {
                 for (int i = 0; i < optionEmojiIndex; i++) {
-                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"));
+                    sentMessage.get().addReaction(EmojiParser.parseToUnicode(":" + optionsEmoji.get(i) + ":"));
                 }
-            }
-            catch (InterruptedException | ExecutionException exception) {
+            } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();
             }
