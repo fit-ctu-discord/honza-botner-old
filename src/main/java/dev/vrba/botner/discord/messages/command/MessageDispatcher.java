@@ -39,7 +39,7 @@ public class MessageDispatcher extends MessageHandler
             new SetBotActivityCommand(),
             new ListEmojiCountingStatsCommand(),
             new YesNoPollCommand(),
-            new AbcPollCommand(),
+            new AbcPollCommand()
     );
 
     public void handleMessageCreated(@NotNull MessageCreateEvent event)

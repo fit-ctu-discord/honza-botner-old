@@ -61,8 +61,8 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
             matcher.reset();
 
+            int optionEmojiIndex = 0;
             try {
-                int optionEmojiIndex = 0;
                 while (matcher.find()) {
                     builder.addField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group());
                     optionEmojiIndex++;
