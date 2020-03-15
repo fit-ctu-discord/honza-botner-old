@@ -29,7 +29,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
     @Override
     public String getUsage()
     {
-        return "`." + this.getName() + " option1 option2 option3...`, max 10";
+        return "`." + this.getName() + " option1 option2 option3...`, max 20";
     }
 
     @Override
@@ -48,7 +48,13 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
             builder.setTitle(String.join(" ", parameters));
 
-            List<String> optionsEmoji = Arrays.asList("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
+            List<String> optionsEmoji = Arrays.asList(
+                ":regional_indicator_a:", ":regional_indicator_b:", ":regional_indicator_c:", ":regional_indicator_d:",
+                ":regional_indicator_e:", ":regional_indicator_f:", ":regional_indicator_g:", ":regional_indicator_h:",
+                ":regional_indicator_i:", ":regional_indicator_j:", ":regional_indicator_k:", ":regional_indicator_l:",
+                ":regional_indicator_m:", ":regional_indicator_n:", ":regional_indicator_o:", ":regional_indicator_p:",
+                ":regional_indicator_q:", ":regional_indicator_r:", ":regional_indicator_s:", ":regional_indicator_t:"
+            );
 
             // Match all parameters as "options".
             // If quotes around word/s are present, mark that as a parameter, otherwise each word is parameter.
