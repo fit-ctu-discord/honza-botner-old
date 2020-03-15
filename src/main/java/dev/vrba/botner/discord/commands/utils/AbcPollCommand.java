@@ -27,8 +27,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
     }
 
     @Override
-    public String getUsage()
-    {
+    public String getUsage() {
         return "`." + this.getName() + " question option1 option2 ... option20`";
     }
 
@@ -47,11 +46,13 @@ public class AbcPollCommand extends AuthenticatedCommand {
             EmbedBuilder builder = new EmbedBuilder();
 
             List<String> optionsEmoji = Arrays.asList(
-                "zero", "regional_indicator_b", "regional_indicator_symbol_letter_c", "regional_indicator_d",
-                "regional_indicator_e", "regional_indicator_f", "regional_indicator_g", "regional_indicator_h",
-                "regional_indicator_i", "regional_indicator_j", "regional_indicator_k", "regional_indicator_l",
-                "regional_indicator_m", "regional_indicator_n", "regional_indicator_o", "regional_indicator_p",
-                "regional_indicator_q", "regional_indicator_r", "regional_indicator_s", "regional_indicator_t"
+                    "regional_indicator_symbol_a", "regional_indicator_symbol_b", "regional_indicator_symbol_c",
+                    "regional_indicator_symbol_d", "regional_indicator_symbol_e", "regional_indicator_symbol_f",
+                    "regional_indicator_symbol_g", "regional_indicator_symbol_h", "regional_indicator_symbol_i",
+                    "regional_indicator_symbol_j", "regional_indicator_symbol_k", "regional_indicator_symbol_l",
+                    "regional_indicator_symbol_m", "regional_indicator_symbol_n", "regional_indicator_symbol_o",
+                    "regional_indicator_symbol_p", "regional_indicator_symbol_q", "regional_indicator_symbol_r",
+                    "regional_indicator_symbol_s", "regional_indicator_symbol_t"
             );
 
             // Match all parameters as "options".
@@ -70,7 +71,10 @@ public class AbcPollCommand extends AuthenticatedCommand {
             int optionEmojiIndex = 0;
             try {
                 while (matcher.find()) {
-                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group(1) != null ? matcher.group(1) : matcher.group());
+                    builder.addInlineField(
+                            EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"),
+                            matcher.group(1) != null ? matcher.group(1) : matcher.group()
+                    );
                     optionEmojiIndex++;
                 }
             } catch (IndexOutOfBoundsException exception) {
