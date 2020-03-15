@@ -22,6 +22,11 @@ public class YesNoPollCommand extends AuthenticatedCommand {
         return "yesno";
     }
 
+    @Override
+    public String getUsage()
+    {
+        return "`." + this.getName() + " question`";
+    }
 
     @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {

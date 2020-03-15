@@ -29,7 +29,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
     @Override
     public String getUsage()
     {
-        return "`." + this.getName() + " option1 option2 option3...`, max 20";
+        return "`." + this.getName() + " question option1 option2 ... option20`";
     }
 
     @Override
@@ -45,8 +45,6 @@ public class AbcPollCommand extends AuthenticatedCommand {
             TextChannel channel = _channel.get();
 
             EmbedBuilder builder = new EmbedBuilder();
-
-            builder.setTitle(String.join(" ", parameters));
 
             List<String> optionsEmoji = Arrays.asList(
                 ":regional_indicator_a:", ":regional_indicator_b:", ":regional_indicator_c:", ":regional_indicator_d:",
@@ -67,7 +65,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
                 throw new InvalidCommandUsageException();
             }
 
-            matcher.reset();
+            builder.setTitle(matcher.group(1) != null ? matcher.group(1) : matcher.group());
 
             int optionEmojiIndex = 0;
             try {
