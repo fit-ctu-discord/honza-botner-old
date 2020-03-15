@@ -26,6 +26,11 @@ public class AbcPollCommand extends AuthenticatedCommand {
         return "abc";
     }
 
+    @Override
+    public String getUsage()
+    {
+        return "`" + this.getName() + " option1 option2 option3...`, max 10";
+    }
 
     @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {
@@ -47,7 +52,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
             // Match all parameters as "options".
             // If quotes around word/s are present, mark that as a parameter, otherwise each word is parameter.
-            String pattern = "\"[^\"]+\"|[\\S]+";
+            String pattern = "\"([^\"]+)\"|[\\S]+";
             Pattern regex = Pattern.compile(pattern);
             Matcher matcher = regex.matcher(String.join(" ", parameters));
 
@@ -61,7 +66,7 @@ public class AbcPollCommand extends AuthenticatedCommand {
             int optionEmojiIndex = 0;
             try {
                 while (matcher.find()) {
-                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group());
+                    builder.addInlineField(EmojiParser.parseToUnicode(":" + optionsEmoji.get(optionEmojiIndex) + ":"), matcher.group(1) != null ? matcher.group(1) : matcher.group());
                     optionEmojiIndex++;
                 }
             } catch (IndexOutOfBoundsException exception) {
