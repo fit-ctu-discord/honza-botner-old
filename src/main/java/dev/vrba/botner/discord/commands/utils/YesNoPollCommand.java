@@ -8,6 +8,7 @@ import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.util.Optional;
@@ -36,22 +37,30 @@ public class YesNoPollCommand extends AuthenticatedCommand {
 
         Optional<TextChannel> _channel = event.getChannel().asTextChannel();
 
-        if (_channel.isPresent()) {
-            String tag = "<@" + message.getAuthor().getId() + ">";
+        if (_channel.isPresent() && message.getAuthor().asUser().isPresent()) {
             TextChannel channel = _channel.get();
+            User author = message.getAuthor().asUser().get();
 
             EmbedBuilder builder = new EmbedBuilder();
 
+            builder.setAuthor(author);
             builder.setTitle(String.join(" ", parameters));
-            builder.addField("Created by", tag);
+
+            // If the post contains an image, embed it.
+            if (!message.getAttachments().isEmpty())
+            {
+                builder.setImage(message.getAttachments().get(0).getUrl().toString());
+            }
 
             CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
                 sentMessage.get().addReactions(
-                        EmojiParser.parseToUnicode(":thumbsup:"),
-                        EmojiParser.parseToUnicode(":thumbsdown:")
+                    EmojiParser.parseToUnicode(":thumbsup:"),
+                    EmojiParser.parseToUnicode(":thumbsdown:")
                 );
+
+                message.delete();
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();

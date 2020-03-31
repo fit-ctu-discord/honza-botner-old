@@ -8,6 +8,7 @@ import dev.vrba.botner.exception.command.InvalidCommandUsageException;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.util.Arrays;
@@ -39,9 +40,9 @@ public class AbcPollCommand extends AuthenticatedCommand {
 
         Optional<TextChannel> _channel = event.getChannel().asTextChannel();
 
-        if (_channel.isPresent()) {
-            String tag = "<@" + message.getAuthor().getId() + ">";
+        if (_channel.isPresent() && message.getAuthor().asUser().isPresent()) {
             TextChannel channel = _channel.get();
+            User author = message.getAuthor().asUser().get();
 
             EmbedBuilder builder = new EmbedBuilder();
 
@@ -66,7 +67,14 @@ public class AbcPollCommand extends AuthenticatedCommand {
                 throw new InvalidCommandUsageException();
             }
 
+            builder.setAuthor(author);
             builder.setTitle(matcher.group(1) != null ? matcher.group(1) : matcher.group());
+
+            // If the post contains an image, embed it.
+            if (!message.getAttachments().isEmpty())
+            {
+                builder.setImage(message.getAttachments().get(0).getUrl().toString());
+            }
 
             int optionEmojiIndex = 0;
             try {
@@ -82,14 +90,14 @@ public class AbcPollCommand extends AuthenticatedCommand {
                 throw new InvalidCommandUsageException();
             }
 
-            builder.addField("Created by", tag);
-
             CompletableFuture<Message> sentMessage = channel.sendMessage("", builder);
 
             try {
                 for (int i = 0; i < optionEmojiIndex; i++) {
                     sentMessage.get().addReaction(EmojiParser.parseToUnicode(":" + optionsEmoji.get(i) + ":"));
                 }
+
+                message.delete();
             } catch (InterruptedException | ExecutionException exception) {
                 Logger.getGlobal().log(Level.SEVERE, exception.getMessage());
                 throw new CommandExecutionException();

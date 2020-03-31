@@ -4,10 +4,7 @@ import com.vdurmont.emoji.EmojiParser;
 import dev.vrba.botner.discord.commands.Command;
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
 import dev.vrba.botner.discord.commands.emoji.ListEmojiCountingStatsCommand;
-import dev.vrba.botner.discord.commands.message.EditMessageCommand;
-import dev.vrba.botner.discord.commands.message.ReactToMessageCommand;
-import dev.vrba.botner.discord.commands.message.SendImageCommand;
-import dev.vrba.botner.discord.commands.message.SendMessageCommand;
+import dev.vrba.botner.discord.commands.message.*;
 import dev.vrba.botner.discord.commands.presence.SetBotActivityCommand;
 import dev.vrba.botner.discord.commands.utils.AbcPollCommand;
 import dev.vrba.botner.discord.commands.utils.YesNoPollCommand;
@@ -35,6 +32,7 @@ public class MessageDispatcher extends MessageHandler
             new SendMessageCommand(),
             new SendImageCommand(),
             new EditMessageCommand(),
+            new EditImageCommand(),
             new ReactToMessageCommand(),
             new SetBotActivityCommand(),
             new ListEmojiCountingStatsCommand(),
