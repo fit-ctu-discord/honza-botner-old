@@ -39,7 +39,7 @@ public class YesNoPollCommand extends AuthenticatedCommand {
 
         if (_channel.isPresent() && message.getAuthor().asUser().isPresent()) {
             TextChannel channel = _channel.get();
-            User author = message.getAuthor().asUser().get();
+            User author = message.getAuthor();
 
             EmbedBuilder builder = new EmbedBuilder();
 
