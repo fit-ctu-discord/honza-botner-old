@@ -9,6 +9,7 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class YesNoPollCommand extends AuthenticatedCommand {
 
         if (_channel.isPresent() && message.getAuthor().asUser().isPresent()) {
             TextChannel channel = _channel.get();
-            User author = message.getAuthor();
+            MessageAuthor author = message.getAuthor();
 
             EmbedBuilder builder = new EmbedBuilder();
 
