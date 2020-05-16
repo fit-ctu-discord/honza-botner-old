@@ -34,6 +34,11 @@ public class AbcPollCommand extends AuthenticatedCommand {
     }
 
     @Override
+    public String getHelp() {
+        return "Creates a multiple choices poll with two or more options.";
+    }
+
+    @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {
         if (parameters.length == 0) {
             throw new InvalidCommandUsageException();

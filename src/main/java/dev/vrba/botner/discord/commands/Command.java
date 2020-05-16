@@ -16,4 +16,9 @@ public abstract class Command
     {
         return "No usage provided by the command `" + this.getName() + "`";
     }
+
+    public String getHelp()
+    {
+        return "No help provided by the command `" + this.getName() + "`";
+    }
 }

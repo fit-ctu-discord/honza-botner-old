@@ -30,6 +30,12 @@ public class YesNoPollCommand extends AuthenticatedCommand {
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Creates a yes/no poll so people can vote for various things.";
+    }
+
+    @Override
     public void execute(MessageCreateEvent event, Message message, String[] parameters) throws CommandException {
 
         if (parameters.length == 0) {
