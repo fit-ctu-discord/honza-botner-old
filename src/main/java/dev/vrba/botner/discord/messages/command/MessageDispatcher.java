@@ -2,6 +2,7 @@ package dev.vrba.botner.discord.messages.command;
 
 import com.vdurmont.emoji.EmojiParser;
 import dev.vrba.botner.discord.commands.Command;
+import dev.vrba.botner.discord.commands.HelpCommand;
 import dev.vrba.botner.discord.commands.RequiredCommandRole;
 import dev.vrba.botner.discord.commands.emoji.ListEmojiCountingStatsCommand;
 import dev.vrba.botner.discord.commands.message.*;
@@ -18,6 +19,7 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,9 @@ public class MessageDispatcher extends MessageHandler
 {
     private final String prefix = ".";
 
-    private List<Command> registeredCommands = List.of(
+    @SuppressWarnings({"FieldMayBeFinal"})
+    private ArrayList<Command> registeredCommands = new ArrayList<>(
+        Arrays.asList(
             new SendMessageCommand(),
             new SendImageCommand(),
             new EditMessageCommand(),
@@ -38,7 +42,15 @@ public class MessageDispatcher extends MessageHandler
             new ListEmojiCountingStatsCommand(),
             new YesNoPollCommand(),
             new AbcPollCommand()
+        )
     );
+
+    public MessageDispatcher()
+    {
+        // This needs to be executed in the constructor as other commands must be registered prior to this call
+        HelpCommand help = new HelpCommand(this.registeredCommands);
+        this.registeredCommands.add(help);
+    }
 
     public void handleMessageCreated(@NotNull MessageCreateEvent event)
     {
@@ -145,7 +157,6 @@ public class MessageDispatcher extends MessageHandler
 
     private Optional<Command> getCommandByName(@NotNull String name)
     {
-
         return this.registeredCommands.stream()
                 .filter(command -> (this.prefix + command.getName()).equals(name))
                 .findFirst();
