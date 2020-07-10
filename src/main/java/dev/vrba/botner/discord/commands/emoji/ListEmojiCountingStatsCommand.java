@@ -1,7 +1,7 @@
 package dev.vrba.botner.discord.commands.emoji;
 
 import dev.vrba.botner.database.entities.CountedEmoji;
-import dev.vrba.botner.discord.commands.ModCommand;
+import dev.vrba.botner.discord.commands.AuthenticatedCommand;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.service.verification.EmojiCounter;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ListEmojiCountingStatsCommand extends ModCommand {
+public class ListEmojiCountingStatsCommand extends AuthenticatedCommand {
 
     private EmojiCounter counter;
 
