@@ -1,7 +1,7 @@
 package dev.vrba.botner.discord.commands.emoji;
 
 import dev.vrba.botner.database.entities.CountedEmoji;
-import dev.vrba.botner.discord.commands.AuthenticatedCommand;
+import dev.vrba.botner.discord.commands.ModCommand;
 import dev.vrba.botner.exception.command.CommandException;
 import dev.vrba.botner.exception.command.CommandExecutionException;
 import dev.vrba.botner.service.verification.EmojiCounter;
