@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ListEmojiCountingStatsCommand extends AuthenticatedCommand {
+public class ListEmojiCountingStatsCommand extends ModCommand {
 
     private EmojiCounter counter;
 
